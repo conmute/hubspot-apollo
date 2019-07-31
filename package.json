@@ -1,0 +1,45 @@
+{
+  "name": "hubspot-appollo",
+  "version": "0.0.1",
+  "description": "Quick hubspot deal review",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && echo \"Error: no test specified\" && exit 1",
+    "lint": "standard",
+    "dev": "npm start",
+    "build": "next build",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "hubspot",
+    "react",
+    "appollo"
+  ],
+  "author": "Roman M. Koss <win.maklin@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "next": "^9.0.2",
+    "next-routes": "^1.4.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "husky": "^3.0.2",
+    "lint-staged": "^9.2.1",
+    "prettier-standard": "^9.1.1",
+    "standard": "^13.1.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "prettier-standard",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
