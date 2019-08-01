@@ -1,21 +1,24 @@
 import React from 'react'
-import Icon, { bgColor } from './icon.svg'
+import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
+import A from '~/ui/atomic/A'
+import Icon, { bgColor } from './icon.svg'
 
 const StyledIcon = styled(Icon)`
   margin-right: 0.5em;
 `
 
-const Btn = styled.a`
+const Btn = styled(A)`
   display: inline-block;
   padding: 0.5em;
   border: 1px solid #bf5c43;
   cursor: pointer;
-  text-transform: uppercase;
+  text-decoration: none;
 
   &:hover {
     background: ${bgColor};
     color: white;
+    text-decoration: none;
 
     ${StyledIcon} path[fill='${bgColor}'] {
       fill: white;
@@ -23,11 +26,14 @@ const Btn = styled.a`
   }
 `
 
-const HubspotLogin = () => (
-  <Btn>
+const HubspotLogin = ({ href }) => (
+  <Btn href={href}>
     <StyledIcon />
     Login
   </Btn>
 )
+HubspotLogin.propTypes = {
+  href: PropTypes.string.isRequired
+}
 
 export default HubspotLogin

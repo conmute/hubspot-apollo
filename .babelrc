@@ -2,12 +2,20 @@
   "env": {
     "production": {
       "plugins": [
-				"emotion"
+				"emotion",
+				["module-resolver", {
+					"root": ["./"],
+					"alias": { "~": "./" }
+				}]
 			]
     },
     "development": {
 			"plugins": [
 				["emotion", { "sourceMap": true }],
+				["module-resolver", {
+					"root": ["./"],
+					"alias": { "~": "./" }
+				}]
 			]
     }
 	},
