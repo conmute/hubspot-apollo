@@ -1,9 +1,10 @@
 'use strict'
 
-require('dotenv').config()
-
 const express = require('express')
 const next = require('next')
+const nextRoutes = require('next-routes')()
+const env = require('./config/env')
+const mongo = require('./config/mongo')
 const routes = require('./routes')
 
 process.on('uncaughtException', function (err) {
@@ -14,31 +15,24 @@ process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection: Promise:', p, 'Reason:', reason)
 })
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'production'
-process.env.PORT = process.env.PORT || 80
-
 const nextApp = next({
   dir: '.',
-  dev: process.env.NODE_ENV === 'development'
+  dev: env.NODE_ENV === 'development'
 })
-const nextRequestHandler = routes.getRequestHandler(nextApp)
+const nextRequestHandler = nextRoutes.getRequestHandler(nextApp)
 
 nextApp
   .prepare()
+  .then(mongo.connect)
   .then(() => {
     const server = express()
-    server.all('*', (req, res) => {
-      return nextRequestHandler(req, res)
-    })
-    server.listen(process.env.PORT, err => {
+    routes.hubspot(server)
+    routes.next(server, { nextRequestHandler })
+    server.listen(env.PORT, err => {
       if (err) {
         throw err
       }
-      console.log(
-        `> Ready on http://localhost:${process.env.PORT} [${
-          process.env.NODE_ENV
-        }]`
-      )
+      console.log(`> Ready on http://localhost:${env.PORT} [${env.NODE_ENV}]`)
     })
   })
   .catch(err => {
