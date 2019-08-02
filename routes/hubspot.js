@@ -75,7 +75,8 @@ module.exports = (server, { nextApp }) => {
           {
             userId: data.userId,
             appId: data.appId,
-            hubId: data.hubId
+            hubId: data.hubId,
+            token: data.accessToken
           },
           env.JWT_SECRET,
           { expiresIn: data.expiresIn }

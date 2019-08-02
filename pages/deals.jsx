@@ -1,3 +1,4 @@
 import React from 'react'
+import Deals from '~/compositions/Deals'
 
-export default () => <div>Deals</div>
+export default () => <Deals />

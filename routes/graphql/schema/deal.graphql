@@ -1,11 +1,15 @@
+type Deals {
+  deals: [Deal]
+  hasMore: Boolean
+  offset: Int
+}
+
 type Deal {
-  refreshToken: String
-  accessToken: String
-  expiresIn: Int
   id: String
   name: String
   stage: String
-  date: Date
+  closeDate: Date
   amount: Int
   type: String
+  portalId: Int
 }

@@ -13,6 +13,7 @@ const tokenFragment = gql`
     updated
   }
 `
+
 export const tokenQuery = gql`
   query token($jwtToken: String!) {
     token(jwtToken: $jwtToken) {

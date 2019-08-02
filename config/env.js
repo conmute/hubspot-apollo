@@ -16,5 +16,6 @@ module.exports = {
   HUBSPOT_SCOPE: process.env.HUBSPOT_SCOPE,
   HUBSPOT_CLIENT_SECRET: process.env.HUBSPOT_CLIENT_SECRET,
   MONGO_URL: process.env.MONGO_URL,
-  JWT_SECRET: process.env.JWT_SECRET
+  JWT_SECRET: process.env.JWT_SECRET,
+  HUBSPOT_APIKEY: process.env.HUBSPOT_APIKEY
 }

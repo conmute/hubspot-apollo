@@ -1,19 +1,9 @@
-const { findToken } = require('../../../models/token')
-const { verify } = require('../../../utils/guard/jwt')
-const { NotAuthenticatedError } = require('../../../utils/errors')
+'use strict'
+
+const token = require('./token')
+const deals = require('./deals')
 
 module.exports = {
-  token: async ({ jwtToken }) => {
-    const [valid, decoded] = verify(jwtToken)
-    if (!valid) throw NotAuthenticatedError(decoded)
-    const res = await findToken({
-      hubId: decoded.hubId,
-      appId: decoded.appId,
-      userId: decoded.userId
-    })
-    return res
-  },
-  deals: ({ jwtToken }) => {
-    return []
-  }
+  token,
+  deals
 }

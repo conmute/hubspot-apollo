@@ -3,5 +3,5 @@ scalar JSON
 
 type Query {
   token(jwtToken: String!): Token
-  deals(jwtToken: String!): [Deal]
+  deals(jwtToken: String!): Deals
 }
