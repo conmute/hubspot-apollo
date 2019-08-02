@@ -1,0 +1,14 @@
+type Token {
+  refreshToken: String
+  accessToken: String
+  expiresIn: Int
+  hubDomain: String
+  scopes: [String]
+  hubId: Int
+  appId: String
+  userId: Int
+  email: String
+  tokenType: String
+  created: Date
+  updated: Date
+}

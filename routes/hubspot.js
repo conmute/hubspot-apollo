@@ -2,8 +2,9 @@
 
 const request = require('request-promise')
 const url = require('url')
+const jwt = require('jsonwebtoken')
 const env = require('../config/env')
-const TokenModel = require('../models/token')
+const { updateToken, addToken } = require('../models/token')
 
 const URL = endpoint => `http://localhost:${env.PORT}/auth/hubspot/${endpoint}`
 
@@ -21,33 +22,6 @@ const tokenReducer = ({ token, data }) => {
     tokenType: data.token_type
   }
 }
-
-const updateToken = props =>
-  new Promise((resolve, reject) => {
-    const { hubId, appId, userId } = props
-    TokenModel.findOneAndUpdate(
-      { hubId, appId, userId },
-      {
-        ...props,
-        updated: new Date()
-      },
-      (err, doc) => {
-        if (err) {
-          return reject(err)
-        }
-        resolve(doc)
-      }
-    )
-  })
-
-const addToken = props =>
-  new Promise((resolve, reject) => {
-    const token = new TokenModel({ ...props, created: new Date() })
-    token.save((err, savedModel) => {
-      if (err) return reject(err)
-      resolve(savedModel)
-    })
-  })
 
 module.exports = (server, { nextApp }) => {
   server.get('/auth/hubspot', (_, res) => {
@@ -97,7 +71,16 @@ module.exports = (server, { nextApp }) => {
         })
       )
       .then(data => {
-        nextApp.render(req, res, '/auth/hubspot', { token: data.accessToken })
+        const token = jwt.sign(
+          {
+            userId: data.userId,
+            appId: data.appId,
+            hubId: data.hubId
+          },
+          env.JWT_SECRET,
+          { expiresIn: data.expiresIn }
+        )
+        nextApp.render(req, res, '/auth/hubspot', { token })
       })
       .catch(err => {
         console.error(err)

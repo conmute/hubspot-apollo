@@ -1,0 +1,11 @@
+type Deal {
+  refreshToken: String
+  accessToken: String
+  expiresIn: Int
+  id: String
+  name: String
+  stage: String
+  date: Date
+  amount: Int
+  type: String
+}

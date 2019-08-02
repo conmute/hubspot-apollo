@@ -1,0 +1,7 @@
+scalar Date
+scalar JSON
+
+type Query {
+  token(jwtToken: String!): Token
+  deals(jwtToken: String!): [Deal]
+}

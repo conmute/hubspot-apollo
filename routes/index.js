@@ -2,8 +2,10 @@
 
 const hubspot = require('./hubspot')
 const next = require('./next')
+const graphql = require('./graphql')
 
 module.exports = {
   hubspot,
-  next
+  next,
+  graphql
 }

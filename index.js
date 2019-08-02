@@ -21,20 +21,23 @@ const nextApp = next({
 })
 const nextRequestHandler = nextRoutes.getRequestHandler(nextApp)
 
+const setupExpress = () => {
+  const server = express()
+  routes.graphql(server)
+  routes.hubspot(server, { nextApp })
+  routes.next(server, { nextRequestHandler })
+  server.listen(env.PORT, err => {
+    if (err) {
+      throw err
+    }
+    console.log(`> Ready on http://localhost:${env.PORT} [${env.NODE_ENV}]`)
+  })
+}
+
 nextApp
   .prepare()
   .then(mongo.connect)
-  .then(() => {
-    const server = express()
-    routes.hubspot(server, { nextApp })
-    routes.next(server, { nextRequestHandler })
-    server.listen(env.PORT, err => {
-      if (err) {
-        throw err
-      }
-      console.log(`> Ready on http://localhost:${env.PORT} [${env.NODE_ENV}]`)
-    })
-  })
+  .then(setupExpress)
   .catch(err => {
     console.log('An error occurred, unable to start the server')
     console.log(err)
