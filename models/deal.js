@@ -56,7 +56,36 @@ const getDeals = ({ token, offset = 0, count = 5, limit = 100 }) => {
   })
 }
 
+const updateDeal = props =>
+  new Promise((resolve, reject) => {
+    const { id } = props
+    Deal.findOneAndUpdate(
+      { id },
+      {
+        ...props,
+        updated: new Date()
+      },
+      (err, doc) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(doc)
+      }
+    )
+  })
+
+const addDeal = props =>
+  new Promise((resolve, reject) => {
+    const deal = new Deal({ ...props, created: new Date() })
+    deal.save((err, savedModel) => {
+      if (err) return reject(err)
+      resolve(savedModel)
+    })
+  })
+
 module.exports = {
   Deal,
-  getDeals
+  getDeals,
+  addDeal,
+  updateDeal
 }
