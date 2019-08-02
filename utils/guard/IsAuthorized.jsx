@@ -13,14 +13,19 @@ const login = () => {
   Router.push('/auth/hubspot')
 }
 
-const check = () => !!JSON.parse(localStorage.getItem('__token__'))
+const readStorage = () => JSON.parse(localStorage.getItem('__token__')) || null
+
+const check = () => !!readStorage()
 
 const IsAuthorized = ({ children }) => {
   const [isIt, setAuthorized] = useState(false)
+  const [token, setToken] = useState(null)
   useEffect(() => {
     setAuthorized(check())
+    setToken(readStorage())
     Router.events.on('routeChangeComplete', () => {
       setAuthorized(check())
+      setToken(readStorage())
     })
   })
   return (
@@ -29,9 +34,11 @@ const IsAuthorized = ({ children }) => {
         isIt,
         logout: () => {
           logout()
+          setToken(null)
           setAuthorized(false)
         },
-        login
+        login,
+        token
       })}
     </>
   )
