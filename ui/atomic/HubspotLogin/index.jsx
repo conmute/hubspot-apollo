@@ -26,14 +26,17 @@ const Btn = styled(A)`
   }
 `
 
-const HubspotLogin = ({ href }) => (
-  <Btn href={href}>
+const HubspotLogin = ({ href, ...rest }) => (
+  <Btn href={href} {...rest}>
     <StyledIcon />
     Login
   </Btn>
 )
 HubspotLogin.propTypes = {
   href: PropTypes.string.isRequired
+}
+HubspotLogin.defaultProps = {
+  href: '#'
 }
 
 export default HubspotLogin

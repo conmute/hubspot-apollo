@@ -26,7 +26,7 @@ nextApp
   .then(mongo.connect)
   .then(() => {
     const server = express()
-    routes.hubspot(server)
+    routes.hubspot(server, { nextApp })
     routes.next(server, { nextRequestHandler })
     server.listen(env.PORT, err => {
       if (err) {

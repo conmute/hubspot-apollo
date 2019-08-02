@@ -6,7 +6,7 @@ const url = require('url')
 
 const URL = endpoint => `http://localhost:${env.PORT}/auth/hubspot/${endpoint}`
 
-module.exports = server => {
+module.exports = (server, { nextApp }) => {
   server.get('/auth/hubspot', (_, res) => {
     const authUrl = url.format({
       pathname: 'https://app.hubspot.com/oauth/authorize',
@@ -18,6 +18,7 @@ module.exports = server => {
     })
     return res.redirect(authUrl)
   })
+
   server.all('/auth/hubspot/callback', (req, res) => {
     const hasError = req.query && req.query.error
     if (hasError) {
@@ -40,14 +41,17 @@ module.exports = server => {
         if (err) {
           return res.redirect('/auth/hubspot/failure')
         }
-        console.log(data)
-        return res.redirect('/auth/hubspot/success')
+        const actualPage = '/auth/hubspot'
+        const body = JSON.parse(data.body)
+        return nextApp.render(req, res, actualPage, { token: body })
       }
     )
   })
+
   server.all('/auth/hubspot/success', (req, res) => {
     res.send(req.params)
   })
+
   server.all('/auth/hubspot/failure', (req, res) => {
     res.send(req.params)
   })

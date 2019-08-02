@@ -6,7 +6,8 @@
 				["module-resolver", {
 					"root": ["./"],
 					"alias": { "~": "./" }
-				}]
+				}],
+				"@babel/plugin-proposal-class-properties"
 			]
     },
     "development": {
@@ -15,7 +16,8 @@
 				["module-resolver", {
 					"root": ["./"],
 					"alias": { "~": "./" }
-				}]
+				}],
+				"@babel/plugin-proposal-class-properties"
 			]
     }
 	},
